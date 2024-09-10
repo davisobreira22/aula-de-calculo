@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProdutoController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Loja</a> &gt; <a href="index.source.html" class="el_package">app.controller</a> &gt; <span class="el_source">ProdutoController.java</span></div><h1>ProdutoController.java</h1><pre class="source lang-java linenums">package app.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import app.entity.Funcionario;
+import app.entity.Produto;
+import app.service.ProdutoService;
+import jakarta.validation.Valid;
+
+@Validated
+@RestController
+@RequestMapping(&quot;/api/Produto&quot;)
+<span class="fc" id="L26">public class ProdutoController {</span>
+
+	@Autowired
+	private ProdutoService produtoService;
+	
+	@PostMapping(&quot;/save&quot;)
+	public ResponseEntity&lt;String&gt; save(@Valid @RequestBody Produto  produto){
+		try {
+<span class="fc" id="L34">			String mensagem = this.produtoService.save(produto);</span>
+<span class="fc" id="L35">			return new ResponseEntity&lt;&gt;(mensagem, HttpStatus.OK);</span>
+<span class="nc" id="L36">		} catch (Exception e) {</span>
+<span class="nc" id="L37">			return new ResponseEntity&lt;&gt;(&quot;Deu erro!&quot;+e.getMessage(), HttpStatus.BAD_REQUEST );</span>
+		}
+	}
+	
+	@PutMapping(&quot;/update/{id}&quot;)
+	public ResponseEntity&lt;String&gt; update(@Valid @RequestBody Produto produto, @PathVariable long id){
+		try {
+<span class="fc" id="L44">			String mensagem = this.produtoService.update(produto, id);</span>
+<span class="fc" id="L45">			return new ResponseEntity&lt;&gt;(mensagem, HttpStatus.OK);</span>
+<span class="nc" id="L46">		} catch (Exception e) {</span>
+<span class="nc" id="L47">			return new ResponseEntity&lt;&gt;(&quot;Deu erro!&quot;+e.getMessage(), HttpStatus.BAD_REQUEST );</span>
+		}
+	}
+	
+	@GetMapping(&quot;/findById/{id}&quot;)
+	public ResponseEntity&lt;Produto&gt; findById(@PathVariable long id){
+		try {
+<span class="fc" id="L54">			Produto produto = this.produtoService.findById(id);</span>
+<span class="fc" id="L55">			return new ResponseEntity&lt;&gt;(produto, HttpStatus.OK);</span>
+<span class="fc" id="L56">		} catch (Exception e) {</span>
+<span class="fc" id="L57">			return new ResponseEntity&lt;&gt;(null, HttpStatus.BAD_REQUEST );</span>
+		}
+	}
+	
+	@GetMapping(&quot;/findAll&quot;)
+	public ResponseEntity&lt;List&lt;Produto&gt;&gt; findAll(){
+		try {
+<span class="fc" id="L64">			List&lt;Produto&gt; cliente = this.produtoService.findAll();</span>
+<span class="fc" id="L65">			return new ResponseEntity&lt;&gt;(cliente, HttpStatus.OK);</span>
+<span class="nc" id="L66">		} catch (Exception e) {</span>
+<span class="nc" id="L67">			return new ResponseEntity&lt;&gt;(null, HttpStatus.BAD_REQUEST );</span>
+		}
+	}
+	
+	@DeleteMapping(&quot;/delete/{id}&quot;)
+	public ResponseEntity&lt;String&gt; delete(@PathVariable long id){
+		try {
+<span class="fc" id="L74">			Produto produtoo = this.produtoService.findById(id);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">			if(produtoo != null) {</span>
+<span class="fc" id="L76">				String mensagem = this.produtoService.delete(id);</span>
+<span class="fc" id="L77">				return new ResponseEntity&lt;&gt;(mensagem, HttpStatus.OK);</span>
+			}else {	
+<span class="fc" id="L79">				return new ResponseEntity&lt;&gt;(null, HttpStatus.BAD_REQUEST );</span>
+			}
+<span class="nc" id="L81">		} catch (Exception e) {</span>
+<span class="nc" id="L82">			return new ResponseEntity&lt;&gt;(null, HttpStatus.BAD_REQUEST);</span>
+		}
+	}
+	
+	@GetMapping(&quot;/findByPreco&quot;)
+	public ResponseEntity&lt;List&lt;Produto&gt;&gt; findByPreco(){
+		try {
+<span class="fc" id="L89">			List&lt;Produto&gt; lista = this.produtoService.findByPrecodoProduto();</span>
+<span class="fc" id="L90">			return new ResponseEntity&lt;&gt;(lista, HttpStatus.OK);</span>
+<span class="nc" id="L91">		} catch (Exception e) {</span>
+<span class="nc" id="L92">			return new ResponseEntity&lt;&gt;(null, HttpStatus.BAD_REQUEST );</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
